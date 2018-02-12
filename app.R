@@ -73,7 +73,7 @@ box-shadow: 1px 1px 10px grey;
 
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(theme = shinytheme("cerulean"), #united
+ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
 
 ##CSS Arguments
  tags$style(sliderCSS),
