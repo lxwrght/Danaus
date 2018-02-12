@@ -48,7 +48,7 @@ monData$P <- as.factor(rep(1,23))
 #########
 
 ##
-#### CSS Edits
+#### CSS Edits (should create a seperate file in /www for 'styles.css' instead of putting it here)
 ##
 
 sliderCSS <- "
