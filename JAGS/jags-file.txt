@@ -1,7 +1,7 @@
 
 model{
 
-r ~ dnorm(1,0.001)
+r ~ dnorm(1,0.001)T(0,)
 
   for(i in 2:Y){
   
