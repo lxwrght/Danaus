@@ -35,7 +35,7 @@ growthRate <- 0.963
 int <- growthRate
 alpha <- 0.000000713
 beta <-  0.000000623  
-gamma <- -0.0856
+gamma <- -0.1756
 deltaU <- 0.02   
 deltaD <- -0.0175   
 
