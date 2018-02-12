@@ -252,7 +252,7 @@ server <- function(input, output) {
     ##PLOT
     ggdistribution(dnorm, seq(0:350), mean=allDataS$N[43], sd=60, colour='blue', fill='blue') +
         geom_vline(xintercept=allData$N[43], linetype="dashed", size=0.75, color='blue4') + 
-        #geom_vline(xintercept=150, linetype="dashed", size=0.75, color='green3') +
+        geom_vline(xintercept=150, linetype="dashed", size=0.75, color='grey75') +
         labs(x='Abundance (in Millions)',y='Year') + 
         #theme_tufte(ticks=FALSE, base_size = 14, base_family = 'calibri') +  
         theme(axis.text.y=element_text(color='black', size=14), 
