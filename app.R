@@ -11,11 +11,17 @@
 monarchs <- read.csv('monarchs_shiny.csv')
 
 ## Packages
-library(shiny)
-library(ggplot2)
-library(ggfortify)
-library(ggthemes)
-library(shinythemes)
+  #Shiny
+if(!require(shiny)) {install.packages("shiny");require(shiny)}
+#ggplot2
+if(!require(ggplot2)) {install.packages("ggplot2");require(ggplot2)}
+#ggfortify
+if(!require(ggfortify)) {install.packages("ggfortify");require(ggfortify)}
+#ggthemes
+if(!require(ggthemes)) {install.packages("ggthemes");require(ggthemes)}
+#shinythemes
+if(!require(shinythemes)) {install.packages("shinythemes");require(shinythemes)}
+
 
 #########
 ## Part - Data Manipulation & Modeling
