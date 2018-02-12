@@ -1,12 +1,11 @@
 ## Author: A.D. Wright
 ## Project: Monarch example - Girls Math and Science Day 2018
 
-rm(list=ls())
 #########
 ## Part - Working directory, data, packages
 #########
 
-## Set working directory
+## Set your working directory
 
 ## Load Monarch data
 monarchs <- read.csv('monarchs_shiny.csv')
