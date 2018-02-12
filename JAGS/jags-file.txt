@@ -1,0 +1,12 @@
+
+model{
+
+r ~ dnorm(1,0.001)
+
+  for(i in 2:Y){
+  
+  N[i]~ dpois(r*N[i-1])
+  
+  } # i
+  
+} 
