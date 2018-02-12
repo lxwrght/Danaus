@@ -13,13 +13,13 @@ monarchs <- read.csv('monarchs_shiny.csv')
 ## Packages
   #Shiny
 if(!require(shiny)) {install.packages("shiny");require(shiny)}
-#ggplot2
+  #ggplot2
 if(!require(ggplot2)) {install.packages("ggplot2");require(ggplot2)}
-#ggfortify
+  #ggfortify
 if(!require(ggfortify)) {install.packages("ggfortify");require(ggfortify)}
-#ggthemes
+  #ggthemes
 if(!require(ggthemes)) {install.packages("ggthemes");require(ggthemes)}
-#shinythemes
+  #shinythemes
 if(!require(shinythemes)) {install.packages("shinythemes");require(shinythemes)}
 
 
