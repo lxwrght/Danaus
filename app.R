@@ -33,9 +33,9 @@ growthRate <- 0.963
 
 # Estimated slope values for: growthRate <- int + alpha*milk + beta*nec + gamma*log
 int <- growthRate
-alpha <- 0.000000713
-beta <-  0.000000623  
-gamma <- -0.1756
+alpha <- 0.02713
+beta <-  0.01023  
+gamma <- -0.01456
 deltaU <- 0.02   
 deltaD <- -0.0175   
 
