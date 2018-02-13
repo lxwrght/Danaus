@@ -94,8 +94,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
         br(),   
         br(),           
         textOutput('growth_rate'),  
-        textOutput('pop_size'),  
         br(),
+        textOutput('pop_size'),  
         h3('Manage!'),
         helpText("Try altering covariate values to 'manage' monarch habitat across its' range. Re-hit the Submit Button. "),
         #Milkweed 
