@@ -80,8 +80,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
 #Panels
   #Title
     # Application title
-    #titlePanel(title="Monarch Module"),
-    titlePanel(title=div("Monarch Module",img(src="ZQEL-butterfly-mich.png",height=50))), 
+    #titlePanel(title="Monarchs & Math"),
+    titlePanel(title=div("'Monarchs & Math' Module",img(src="ZQEL-butterfly-mich.png",height=50))), 
   #Slide bars
      # Sidebar with a slider input for number of bins 
      sidebarLayout(
@@ -99,22 +99,22 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
         helpText("Try altering covariate values to 'manage' monarch habitat across its' range. Re-hit the Submit Button. "),
         #Milkweed 
         sliderInput("milk",
-                       "Amount of Summer Milkweed Habitat",
+                       "Relative Amount of Summer Milkweed Habitat",
                        min = 1,
-                       max = 50000,
-                       value = 12500),
+                       max = 6,
+                       value = 2),
         #Nectar
         sliderInput("nectar",
-                       "Amount of Migratory Nectar Habitat",
+                       "Relative Amount of Migratory Nectar Habitat",
                        min = 1,
-                       max = 100000,
-                       value = 19000),
+                       max = 6,
+                       value = 2),
         #Logging
         sliderInput("log",
-                    "Proportion of Wintering Grounds Logged",
-                    min = 0.01,
-                    max = 0.25,
-                    value = 0.10),
+                    "% of Wintering Grounds Available for Logging",
+                    min = 1,
+                    max = 10,
+                    value = 5),
         #Temp   
         h3('Climate Scenarios:'),
         sliderInput("temp",                          
@@ -250,7 +250,7 @@ server <- function(input, output) {
     allData$N <- allData$N/1000000
     
     ##PLOT
-    ggdistribution(dnorm, seq(0:350), mean=allDataS$N[43], sd=60, colour='blue', fill='blue') +
+    ggdistribution(dnorm, seq(0:350), mean=allDataS$N[43], sd=60, colour='blue', fill='blue',p=NULL) +
         geom_vline(xintercept=allData$N[43], linetype="dashed", size=0.75, color='blue4') + 
         geom_vline(xintercept=150, linetype="dashed", size=0.75, color='grey75') +
         labs(x='Abundance (in Millions)',y='Year') + 
