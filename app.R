@@ -94,6 +94,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
         br(),   
         br(),           
         textOutput('growth_rate'),  
+        textOutput('pop_size'),  
         br(),
         h3('Manage!'),
         helpText("Try altering covariate values to 'manage' monarch habitat across its' range. Re-hit the Submit Button. "),
@@ -166,7 +167,7 @@ server <- function(input, output) {
     
     #Eqs
     v$r <- int + alpha*input$milk + beta*input$nectar + gamma*input$log + deltaU*input$temp + deltaD*(input$temp^2)
-    #v$r <- trunc(v$r, 3)
+    v$r <- round(v$r, 2)
     #Empty data frames for loops below
     n <- c(monData$N[23], rep(NA,20))
     nStatic <- c(monData$N[23], rep(NA,20))
@@ -266,6 +267,11 @@ server <- function(input, output) {
   output$growth_rate <- renderText({
     paste("Population Growth Rate:",v$r)
   }) #end renderText
+  
+  output$pop_size <- renderText({
+    paste("Population Size (2036):",round(v$pred[20,1]/1000000))
+  }) #end renderText
+  
 
   
 } #end server()
