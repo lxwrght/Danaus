@@ -265,11 +265,11 @@ server <- function(input, output) {
   }) #, height=400, width=600) #end renderPlot()
 
   output$growth_rate <- renderText({
-    paste("Population Growth Rate:",v$r)
+    paste("Population Growth Rate = ",v$r)
   }) #end renderText
   
   output$pop_size <- renderText({
-    paste("Population Size (2036):",round(v$pred[20,1]/1000000))
+    paste("Population Size (2036) = ",round(v$pred[20,1]/1000000))
   }) #end renderText
   
 
