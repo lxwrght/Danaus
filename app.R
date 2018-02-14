@@ -102,13 +102,13 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
         sliderInput("milk",
                        "Relative Amount of Summer Milkweed Habitat",
                        min = 1,
-                       max = 6,
+                       max = 4,
                        value = 2),
         #Nectar
         sliderInput("nectar",
                        "Relative Amount of Migratory Nectar Habitat",
                        min = 1,
-                       max = 6,
+                       max = 4,
                        value = 2),
         #Logging
         sliderInput("log",
@@ -138,8 +138,11 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
           plotOutput("abundancePlot",width='100%'),
           h4("How Uncertain Are We?"),
           #helpText('The dotted blue line represents the estimated Monarch abundance in 2043, and the blue curve represents what we should expect to see and its corresponding uncertainty.'),
-          plotOutput("probabilityPlot",width='100%')
-        ) #End Main Panel
+          plotOutput("probabilityPlot",width='100%'),
+          br(),
+          helpText("The top figure,'How Does the Future Look?', shows the previously estimated (1994-2016) Monarch abundances in their wintering grounds and our predicted abundances in the future (2017-2036) given the covaraite values set in the sliders bars in the left panel. Background colors correspond to the status of the population (Dark Red = Extinct, Light Red = At risk, Green = Viable)."),
+          helpText("The lower figure, 'How Uncertain Are We?', illustrates the uncertainty in our ability to predict the future. The dotted blue line represents the estimated Monarch abundance in 2043 in that single iteration, and the blue curve represents all possible values (x-axis) and their probability of occuring (y-axis). The dotted gray line indicates our target population size.")
+          ) #End Main Panel
      ) #End sidebar layout
   ) #End UI script
 
