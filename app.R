@@ -6,8 +6,10 @@
 #########
 
 ## Set your working directory
+  #Currently set via Danaus.Rproj
 
 ## Load Monarch data
+  ## This data is publicy available via WWF [link?], we used a correction factor to translate hectares to abundance [citation?]
 monarchs <- read.csv('monarchs_shiny.csv')
 
 ## Packages
@@ -27,11 +29,11 @@ if(!require(shinythemes)) {install.packages("shinythemes");require(shinythemes)}
 ## Part - Data Manipulation & Modeling
 #########
 
-#Growth Rate
-#Calculated via monarch_jags.R   N[y] ~ dpois(r*N[y-1])
+# PopulationGrowth Rate
+  #Calculated via monarch_jags.R   N[y] ~ dpois(r*N[y-1])
 growthRate <- 0.963 
 
-# Estimated slope values for: growthRate <- int + alpha*milk + beta*nec + gamma*log
+# Parameter values for growthrate linear model: r <- int + alpha*milk + beta*nec + gamma*log + deltaU*temp + deltaU*(temp^2)
 int <- growthRate
 alpha <- 0.02713
 beta <-  0.01023  
@@ -39,8 +41,8 @@ gamma <- -0.01456
 deltaU <- 0.02   
 deltaD <- -0.0175   
 
-## Monarch data
-monData <- data.frame(N =monarchs$Numbers, Y=monarchs$X)
+## Monarch dataframe necessary for shiny app
+monData <- data.frame(N=monarchs$Numbers, Y=monarchs$X)
 monData$P <- as.factor(rep(1,23))
 
 #########
@@ -48,9 +50,10 @@ monData$P <- as.factor(rep(1,23))
 #########
 
 ##
-#### CSS Edits (should create a seperate file in /www for 'styles.css' instead of putting it here)
+#### CSS Edits (should create a seperate file in /www for 'styles.css' instead of putting it here - eventually...)
 ##
 
+## Edits the color of the sliderBar
 sliderCSS <- "
 .irs-bar,
 .irs-bar-edge,
@@ -61,6 +64,7 @@ border-color: DarkSlateGrey;
 }
 "
 
+## Adds a shadow around the plots
 plotCSS <- "
 .shiny-plot-output{
 box-shadow: 1px 1px 10px grey;
@@ -68,22 +72,21 @@ box-shadow: 1px 1px 10px grey;
 "
 
 ##
-#### UI
+#### UI file
 ##
 
 
-# Define UI for application that draws a histogram
+# Define UI for the app
 ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
 
 ##CSS Arguments
  tags$style(sliderCSS),
+ tags$style(plotCSS),
 #Panels
   #Title
-    # Application title
-    #titlePanel(title="Monarchs & Math"),
     titlePanel(title=div("'Monarchs & Math' Module",img(src="ZQEL-butterfly-mich.png",height=50))), 
-  #Slide bars
-     # Sidebar with a slider input for number of bins 
+  #Slider bars
+     # Sidebar with a slider inputs & submit button
      sidebarLayout(
         sidebarPanel(
           
@@ -92,7 +95,8 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
         #Submit Button
         actionButton("go","Submit"),
         br(),   
-        br(),           
+        br(),   
+        #Reported values for growth rate and final population size (see server())
         textOutput('growth_rate'),  
         br(),
         textOutput('pop_size'),  
@@ -123,18 +127,15 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
                     min = -2.0,                        
                     max = 2.0,                         
                     value = 0)                       
-        # #Submit button
-        # submitButton("Submit"),
            
         ), #End sidebarPanel
 
   #Plot      
-        # Show a plot of the generated distribution
+        # Show plots in main panel
         mainPanel(
           #img(src="ZQEL-Horiz-mich.png",height=50,align='right'),
           h4("How Does the Future Look?"),
           #helpText("This figure shows the estimated annual abundance of monarchs at their wintering grounds over the past 23 years, and shows predictions over the next 20 years. Background colors correspond to: Green - Least Concern, Light Red - At Risk, Red - Extinct."),
-          tags$style(plotCSS),
           plotOutput("abundancePlot",width='100%'),
           h4("How Uncertain Are We?"),
           #helpText('The dotted blue line represents the estimated Monarch abundance in 2043, and the blue curve represents what we should expect to see and its corresponding uncertainty.'),
@@ -142,10 +143,10 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
           br(),
           helpText("The top figure,'How Does the Future Look?', shows the previously estimated (1994-2016) Monarch abundances in their wintering grounds and our predicted abundances in the future (2017-2036) given the covaraite values set in the sliders bars in the left panel. Background colors correspond to the status of the population (Dark Red = Extinct, Light Red = At risk, Green = Viable)."),
           helpText("The lower figure, 'How Uncertain Are We?', illustrates the uncertainty in our ability to predict the future. The dotted blue line represents the estimated Monarch abundance in 2043 in that single iteration, and the blue curve represents all possible values (x-axis) and their probability of occuring (y-axis). The dotted gray line indicates our target population size.")
+          
           ) #End Main Panel
      ) #End sidebar layout
   ) #End UI script
-
 
 
 ##
@@ -153,7 +154,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"), #united , cerulean
 ##
 
 
-# Define server logic required to draw a histogram
+# Define server logic for ouputs
 server <- function(input, output) {
    
   ##
@@ -164,8 +165,10 @@ server <- function(input, output) {
   # years <- 1:length(N)  
   # predictions <- data.frame(N, years)
   
+  #Define and calculate the reactive values for each iteration
   v <- reactiveValues(pred=NULL,r=NULL,static=NULL)
   
+  #Submit button
   observeEvent(input$go,{
     
     #Eqs
