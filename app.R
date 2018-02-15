@@ -173,12 +173,15 @@ server <- function(input, output) {
     
     #Eqs
     v$r <- int + alpha*input$milk + beta*input$nectar + gamma*input$log + deltaU*input$temp + deltaD*(input$temp^2)
+    #Round for simpler output
     v$r <- round(v$r, 2)
-    #Empty data frames for loops below
+    #Create empty data frames for loops below
+      #For figure 1
     n <- c(monData$N[23], rep(NA,20))
+      #For figure 2
     nStatic <- c(monData$N[23], rep(NA,20))
     
-    #with stochasticity
+    #with stochasticity (Figure 1)
     for(i in 2:length(n)){
       if(n[i-1] <= 0) {
         n[i] = 0
@@ -187,15 +190,14 @@ server <- function(input, output) {
       }
     }
     
-
-    
+    #The first negative value doesn't get set to 0 in above loop, this corrects that
     for(i in 1:length(n)){
       if(n[i] < 0) {
         n[i] = 0
       }
     }
     
-    #Buidling data ouput
+    #Building data ouput
     years <- 21 + 1:length(n)
     N <- n[2:21]
     Y <- 2017:2036
@@ -204,7 +206,7 @@ server <- function(input, output) {
     v$pred <- data.frame(N=N,Y=Y,P=P) 
     
     
-    #withOUT stochasticity
+    #withOUT stochasticity (Figure 2)
     for(i in 2:length(nStatic)){
       if(nStatic[i-1] <= 0) {
         nStatic[i] = 0
@@ -219,13 +221,21 @@ server <- function(input, output) {
     v$static <- data.frame(N=Nstatic,Y=Y,P=P) 
     
  }) # eventReactive()
+ 
+  
+  ##
+  #### PLOT OUTPUTS
+  ##    
   
   #PLOT 1
   output$abundancePlot <- renderPlot({
     
+    #Bind original data and predicted data
     allData <- rbind(monData, v$pred)
+    #Put it on a (in millions) scale
     allData$N <- allData$N/1000000
-    cols <- c("LINE1"="#f04546","LINE2"="#3591d1")
+      #Whis it this line in here? For Legend, but legend issn't working
+        #cols <- c("LINE1"="#f04546","LINE2"="#3591d1")
     
     ##PLOT
       ggplot(data=allData, aes(x=Y, y=N)) + #, color=P
@@ -240,20 +250,21 @@ server <- function(input, output) {
                axis.text.x=element_text(color='black', size=14), 
                axis.title.y=element_text(size=18),
                axis.title.x=element_text(size=18),
-               legend.position="top") +
+               legend.position="top") #+
 
-        scale_linetype_manual(values = c("solid","dashed"),name="Equations", 
-                              labels = c("Equation 1","Equation 2"),guide="legend")
+        # scale_linetype_manual(values = c("solid","dashed"),name="Equations", 
+        #                       labels = c("Equation 1","Equation 2"),guide="legend")
         
-   }) #, height=400, width=600) #end renderPlot()
+   }) #, height=400, width=600) #end renderPlot()  #Can set height and width  here if you want plot size to be fixed, regardless of window size, however, doesn't work with box-shadow code as written
   
   #PLOT 2
   output$probabilityPlot <- renderPlot({
     
+    #Bind original data and predicted data
     allDataS <- rbind(monData, v$static)
-    allDataS$N <- allDataS$N/1000000
-    
     allData <- rbind(monData, v$pred)
+    #Put it on a (in millions) scale
+    allDataS$N <- allDataS$N/1000000
     allData$N <- allData$N/1000000
     
     ##PLOT
@@ -270,6 +281,10 @@ server <- function(input, output) {
 
   }) #, height=400, width=600) #end renderPlot()
 
+  ##
+  #### TEXT OUTPUTS
+  ##
+  
   output$growth_rate <- renderText({
     paste("Population Growth Rate = ",v$r)
   }) #end renderText
@@ -278,9 +293,12 @@ server <- function(input, output) {
     paste("Population Size (2036) = ",round(v$pred[20,1]/1000000))
   }) #end renderText
   
-
   
 } #end server()
+
+##
+#### Final fun() to run entire script
+##
 
 # Run the application 
 shinyApp(ui = ui, server = server)
