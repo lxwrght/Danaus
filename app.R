@@ -9,7 +9,7 @@
   #Currently set via Danaus.Rproj
 
 ## Load Monarch data
-  ## This data is publicy available via WWF [link?], we used a correction factor to translate hectares to abundance [citation?]
+  ## This data is publicy available via the World Wildlife Fund, we used a correction factor to translate hectares to abundance [citation?]
 monarchs <- read.csv('monarchs_shiny.csv')
 
 ## Packages
@@ -161,9 +161,6 @@ server <- function(input, output) {
   #### Predict data using inputs from ui.R
   ##    
   
-  # N <- c(monarchs$N, rep(NA,20))
-  # years <- 1:length(N)  
-  # predictions <- data.frame(N, years)
   
   #Define and calculate the reactive values for each iteration
   v <- reactiveValues(pred=NULL,r=NULL,static=NULL)
