@@ -238,7 +238,7 @@ server <- function(input, output) {
       ggplot(data=allData, aes(x=Y, y=N)) + #, color=P
         geom_rect(aes(ymin=-Inf,ymax=1, xmin=-Inf,xmax=Inf), fill='red', alpha=0.01) +
         geom_rect(aes(ymin=1,ymax=150, xmin=-Inf,xmax=Inf), fill='red', alpha=0.005) +
-        geom_rect(aes(ymin=150,ymax=Inf, xmin=-Inf,xmax=Inf), fill='green3', alpha=0.005) +
+        geom_rect(aes(ymin=150,ymax=Inf, xmin=-Inf,xmax=Inf), fill='green', alpha=0.005) +
         geom_point(size=3, color='blue',shape=1) +
         geom_line(size=0.5,linetype="dashed", color='blue') +
         geom_vline(xintercept=2016.5, linetype="dotted", size=1) + 
