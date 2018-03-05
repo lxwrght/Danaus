@@ -10,7 +10,7 @@
 #test test
 
 ## Load Monarch data
-  ## This data is publicy available via the World Wildlife Fund, we used a correction factor to translate hectares to abundance [citation?]
+  ## This data is publicy available via the World Wildlife Fund (https://www.worldwildlife.org/species/monarch-butterfly), we used a correction factor to translate hectares to abundance [21.1 million butterflies/ha]
 monarchs <- read.csv('monarchs_shiny.csv')
 
 ## Packages
